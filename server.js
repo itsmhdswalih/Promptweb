@@ -18,16 +18,27 @@ const mimeTypes = {
   '.woff': 'font/woff',
   '.woff2': 'font/woff2',
   '.ttf': 'font/ttf',
+  '.webp': 'image/webp',
 };
 
 const server = http.createServer((req, res) => {
   let urlPath = req.url.split('?')[0];
 
-  if (urlPath === '/' || urlPath === '/Promptweb' || urlPath === '/Promptweb/') {
-    urlPath = '/index.html';
+  if (urlPath === '/' || urlPath === '') {
+    res.writeHead(302, { 'Location': '/Promptweb/' });
+    res.end();
+    return;
   }
 
-  if (urlPath.startsWith('/Promptweb/')) {
+  if (urlPath === '/Promptweb' ) {
+    res.writeHead(302, { 'Location': '/Promptweb/' });
+    res.end();
+    return;
+  }
+
+  if (urlPath === '/Promptweb/') {
+    urlPath = '/index.html';
+  } else if (urlPath.startsWith('/Promptweb/')) {
     urlPath = urlPath.slice('/Promptweb'.length);
   }
 
